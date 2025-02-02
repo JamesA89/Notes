@@ -45,7 +45,6 @@ $RECYCLE.BIN/
 
 # VS Code directories
 .vscode/
-.history/
 
 # Windows Installer files
 *.cab
@@ -59,10 +58,3 @@ $RECYCLE.BIN/
 # JetBrains Rider
 .idea/
 *.sln.iml
-
-# .NET MAUI specific
-bin/
-obj/
-AppPackages/
-node_modules/
-platforms/
