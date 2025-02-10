@@ -2,6 +2,8 @@ namespace Notes;
 
 public partial class NotePage : ContentPage
 {
+
+	string _fileName = Path.Combine(FileSystem.AppDataDirectory, "notes.txt");
 	public NotePage()
 	{
 		InitializeComponent();
@@ -10,8 +12,6 @@ public partial class NotePage : ContentPage
 		if (File.Exists(_fileName))
         TextEditor.Text = File.ReadAllText(_fileName);
 	}
-
-	string _fileName = Path.Combine(FileSystem.AppDataDirectory, "notes.txt");
 
 	private void SaveButton_Clicked(object sender, EventArgs e)
 	{
