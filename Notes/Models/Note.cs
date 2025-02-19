@@ -2,7 +2,7 @@ using System;
 
 namespace Notes.Models;
 
-internal class Note
+public class Note
 {
     public string Filename { get; set; }
     public string Text { get; set; }

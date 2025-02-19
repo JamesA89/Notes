@@ -5,14 +5,14 @@ using Notes.Models;
     
 namespace Notes.ViewModels;
     
-internal class NotesViewModel: IQueryAttributable
+public class AllNotesViewModel: IQueryAttributable
 {
 
     public ObservableCollection<ViewModels.NoteViewModel> AllNotes { get; }
     public ICommand NewCommand { get; }
     public ICommand SelectNoteCommand { get; }
 
-    public NotesViewModel()
+    public AllNotesViewModel()
     {
         AllNotes = new ObservableCollection<ViewModels.NoteViewModel>(Models.Note.LoadAll().Select(n => new NoteViewModel(n)));
         NewCommand = new AsyncRelayCommand(NewNoteAsync);
