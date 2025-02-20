@@ -1,10 +1,12 @@
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using System.Windows.Input;
+using Notes.Data;
+using Notes.Models;
 
 namespace Notes.ViewModels;
 
-public class NoteViewModel : ObservableObject, IQueryAttributable
+public partial class NoteViewModel : ObservableObject, IQueryAttributable
 {
     private Models.Note _note;
 
@@ -23,50 +25,53 @@ public class NoteViewModel : ObservableObject, IQueryAttributable
     
     public DateTime Date => _note.Date;
         
-    public string Identifier => _note.Filename;
+    public int Id => _note.Id;
 
-    public ICommand SaveCommand { get; private set; }
-    public ICommand DeleteCommand { get; private set; }
-
-    public NoteViewModel()
-    {
-        _note = new Models.Note();
-        SaveCommand = new AsyncRelayCommand(Save);
-        DeleteCommand = new AsyncRelayCommand(Delete);
-    }
+    private NotesDbContext _context;
     
-    public NoteViewModel(Models.Note note)
+    public NoteViewModel(NotesDbContext notesDbContext)
+    {
+        _context = notesDbContext;
+        _note = new Note();
+    }
+    public NoteViewModel(NotesDbContext notesDbContext, Note note)
     {
         _note = note;
-        SaveCommand = new AsyncRelayCommand(Save);
-        DeleteCommand = new AsyncRelayCommand(Delete);
+        _context = notesDbContext;
     }
 
+   [RelayCommand]
     private async Task Save()
     {
         _note.Date = DateTime.Now;
-        _note.Save();
-        await Shell.Current.GoToAsync($"..?saved={_note.Filename}");
+        if (_note.Id == 0)
+        {
+            _context.Notes.Add(_note);
+        }
+        _context.SaveChanges();
+        await Shell.Current.GoToAsync($"..?saved={_note.Id}");
     }
-    
+
+    [RelayCommand]
     private async Task Delete()
     {
-        _note.Delete();
-        await Shell.Current.GoToAsync($"..?deleted={_note.Filename}");
+        _context.Remove(_note);
+        _context.SaveChanges();
+        await Shell.Current.GoToAsync($"..?deleted={_note.Id}");
     }
 
     void IQueryAttributable.ApplyQueryAttributes(IDictionary<string, object> query)
     {
         if (query.ContainsKey("load"))
         {
-            _note = Models.Note.Load(query["load"].ToString());
+            _note = _context.Notes.Single(n => n.Id == int.Parse(query["load"].ToString()));
             RefreshProperties();
         }
     }
 
     public void Reload()
     {
-        _note = Models.Note.Load(_note.Filename);
+        _context.Entry(_note).Reload();
         RefreshProperties();
     }
         
