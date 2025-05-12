@@ -23,6 +23,9 @@ jobs:
       - name: Generate Doxygen Documentation
         run: doxygen Doxyfile
 
+      - name: List files in build directory
+        run: ls -R .\html
+
       - name: Upload static files as artifact
         uses: actions/upload-pages-artifact@v3
         with:
