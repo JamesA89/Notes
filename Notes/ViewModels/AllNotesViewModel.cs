@@ -23,6 +23,9 @@ public class AllNotesViewModel: IQueryAttributable
         SelectNoteCommand = new AsyncRelayCommand<ViewModels.NoteViewModel>(SelectNoteAsync);
     }
 
+    /*! a comments
+     *
+     */ 
     private async Task NewNoteAsync()
     {
         await Shell.Current.GoToAsync(nameof(Views.NotePage));
