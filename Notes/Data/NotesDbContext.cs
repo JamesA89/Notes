@@ -10,6 +10,6 @@ public class NotesDbContext : DbContext
     public NotesDbContext(DbContextOptions options) : base(options)
     { }
 
-    public DbSet Notes { get; set; }
+    public DbSet<Note> Notes { get; set; }
 
 }

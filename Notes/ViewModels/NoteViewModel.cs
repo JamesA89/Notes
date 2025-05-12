@@ -6,8 +6,16 @@ using Notes.Models;
 
 namespace Notes.ViewModels;
 
+
+
 public partial class NoteViewModel : ObservableObject, IQueryAttributable
 {
+
+    public NoteViewModel()
+    {
+        _note = new Note(); // Initialize the Note
+    }
+
     private Models.Note _note;
 
     public string Text

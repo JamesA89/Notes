@@ -28,22 +28,22 @@ public static class MauiProgram
 				.AddJsonStream(stream)
 				.Build();
     
-builder.Configuration.AddConfiguration(config);
+			builder.Configuration.AddConfiguration(config);
 
-var connectionString = builder.Configuration.GetConnectionString("LocalConnection");
-builder.Services.AddDbContext<NotesDbContext>(options => options.UseSqlServer(connectionString));
+			var connectionString = builder.Configuration.GetConnectionString("LocalConnection");
+			builder.Services.AddDbContext<NotesDbContext>(options => options.UseSqlServer(connectionString));
 
-builder.Services.AddSingleton<AllNotesViewModel>();
-builder.Services.AddTransient<NoteViewModel>();
+			builder.Services.AddSingleton<AllNotesViewModel>();
+			builder.Services.AddTransient<NoteViewModel>();
 
-builder.Services.AddSingleton<AllNotesPage>();
-builder.Services.AddTransient<NotePage>();
+			builder.Services.AddSingleton<AllNotesPage>();
+			builder.Services.AddTransient<NotePage>();
 
-#if DEBUG
-		builder.Logging.AddDebug();
-#endif
+			#if DEBUG
+					builder.Logging.AddDebug();
+			#endif
 
-		return builder.Build();
+					return builder.Build();
 	}
 	
 }
